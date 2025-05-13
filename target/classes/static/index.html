@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafeMeds - Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+    <link rel="icon" href="logo.png" type="image/png">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body {
+            min-height: 100vh;
+            display: flex;
+            background: linear-gradient(120deg, #eaf8fd 0%, #f8f9fa 100%);
+            animation: bgFadeIn 1.2s;
+        }
+        @keyframes bgFadeIn {
+            from { background: #fff; }
+            to { background: linear-gradient(120deg, #eaf8fd 0%, #f8f9fa 100%); }
+        }
+        .split-container {
+            display: flex;
+            width: 100%;
+            min-height: 100vh;
+        }
+        .image-section {
+            flex: 1.2;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/med1.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            animation: slideIn 1.2s cubic-bezier(.4,2,.6,1);
+        }
+        .image-section::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(45deg, rgba(0, 176, 234, 0.3), rgba(0, 176, 234, 0.1));
+            animation: fadeIn 1.5s cubic-bezier(.4,2,.6,1);
+        }
+        .image-content {
+            color: white;
+            text-align: center;
+            z-index: 1;
+            padding: 20px;
+            animation: fadeInUp 1s cubic-bezier(.4,2,.6,1) 0.5s both;
+            width: 100%;
+            max-width: 600px;
+        }
+        .image-content h2 {
+            font-family: 'Pacifico', cursive;
+            font-size: 2.5em;
+            margin-bottom: 40px;
+            background: linear-gradient(45deg, #fff, #e0e0e0);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmer 3s infinite, fadeIn 1.2s;
+            line-height: 1.8;
+        }
+        .image-content p {
+            font-size: 1.6em;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            opacity: 0.9;
+            font-weight: 300;
+            letter-spacing: 1px;
+            line-height: 1.4;
+        }
+        .login-section {
+            flex: 0.8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            animation: slideInRight 1.2s cubic-bezier(.4,2,.6,1);
+            background: white;
+            position: relative;
+            overflow: hidden;
+        }
+        .login-section::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, rgba(0, 176, 234, 0.05) 0%, rgba(255, 255, 255, 0) 100%);
+            z-index: 0;
+        }
+        .login-container {
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+            animation: fadeIn 1.2s cubic-bezier(.4,2,.6,1);
+            /* background: rgba(255,255,255,0.98); */
+            /* border-radius: 18px; */
+            /* box-shadow: 0 4px 32px rgba(0,176,234,0.10); */
+        }
+        .logo-container {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeInDown 1s cubic-bezier(.4,2,.6,1);
+        }
+        .logo-container img {
+            width: 110px; height: 110px; border-radius: 50%; object-fit: cover;
+            border: 3px solid rgb(0, 176, 234); padding: 5px; transition: all 0.4s cubic-bezier(.4,2,.6,1);
+            box-shadow: 0 5px 15px rgba(0, 176, 234, 0.2); background: white;
+            animation: logoPop 1.2s cubic-bezier(.4,2,.6,1);
+        }
+        @keyframes logoPop {
+            0% { transform: scale(0.7) rotate(-10deg); opacity: 0; }
+            80% { transform: scale(1.1) rotate(5deg); opacity: 1; }
+            100% { transform: scale(1) rotate(0); }
+        }
+        .logo-container img:hover {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 8px 25px rgba(0, 176, 234, 0.3);
+        }
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+            animation: fadeInUp 1s cubic-bezier(.4,2,.6,1) 0.3s both;
+        }
+        .login-header h1 {
+            color: rgb(0, 176, 234);
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-shadow: 1px 1px 2px rgba(0, 176, 234, 0.1);
+            line-height: 1.3;
+            animation: fadeIn 1.2s;
+        }
+        .form-group {
+            margin-bottom: 25px;
+            animation: fadeInUp 1s cubic-bezier(.4,2,.6,1) 0.5s both;
+            position: relative;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            color: #333;
+            font-weight: 500;
+            font-size: 1.1em;
+            transition: all 0.3s cubic-bezier(.4,2,.6,1);
+        }
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-bottom: 2px solid #ddd;
+            font-size: 1.1em;
+            transition: all 0.3s cubic-bezier(.4,2,.6,1);
+            background: transparent;
+            border-radius: 8px 8px 0 0;
+            box-shadow: 0 2px 8px rgba(0,176,234,0.06);
+        }
+        .form-group input:focus {
+            border-color: rgb(0, 176, 234);
+            outline: none;
+            background: #eaf8fd;
+        }
+        .form-group input:focus + label {
+            color: rgb(0, 176, 234);
+        }
+        .login-btn {
+            width: 100%;
+            padding: 15px;
+            background: rgb(0, 176, 234);
+            border: none;
+            border-radius: 30px;
+            color: white;
+            font-size: 1.2em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(.4,2,.6,1);
+            animation: fadeInUp 1s cubic-bezier(.4,2,.6,1) 0.7s both;
+            margin-top: 20px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0,176,234,0.10);
+        }
+        .login-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+        .login-btn:hover::before {
+            left: 100%;
+        }
+        .login-btn:hover {
+            background: rgb(0, 156, 214);
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 8px 25px rgba(0, 176, 234, 0.18);
+        }
+        .switch-link {
+            color: rgb(0, 176, 234);
+            cursor: pointer;
+            text-decoration: underline;
+            font-weight: 500;
+            transition: color 0.3s cubic-bezier(.4,2,.6,1);
+        }
+        .switch-link:hover {
+            color: #333;
+        }
+        .forgot-password {
+            text-align: center;
+            margin-top: 25px;
+            animation: fadeInUp 1s cubic-bezier(.4,2,.6,1) 0.9s both;
+        }
+        .forgot-password a {
+            color: rgb(0, 176, 234);
+            text-decoration: none;
+            font-size: 1em;
+            transition: all 0.3s cubic-bezier(.4,2,.6,1);
+            font-weight: 500;
+            position: relative;
+        }
+        .forgot-password a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: rgb(0, 176, 234);
+            transition: width 0.3s cubic-bezier(.4,2,.6,1);
+        }
+        .forgot-password a:hover::after {
+            width: 100%;
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+        @keyframes slideIn {
+            from { transform: translateX(-100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @media (max-width: 991px) {
+            body, .split-container { display: block !important; min-height: auto !important; height: auto !important; overflow-x: hidden; }
+            .login-section { padding-top: 0 !important; }
+            .logo-container { margin-top: 40px !important; margin-bottom: 30px !important; }
+            .image-section { min-height: 250px; flex: 1; position: relative; z-index: 1; }
+            .login-section { flex: 1; padding: 30px; position: relative; z-index: 2; background: white; }
+            .image-content h2 { font-size: 2.2em; }
+            .image-content p { font-size: 1.2em; }
+            .login-container { max-width: 500px; background: none !important; border-radius: 0 !important; box-shadow: none !important; margin-top: 0 !important; padding: 0 10px !important; }
+        }
+        @media (max-width: 767px) {
+            .image-section { min-height: 200px; }
+            .image-content h2 { font-size: 2em; }
+            .image-content p { font-size: 1.1em; }
+            .login-section { padding: 20px; }
+            .login-container { padding: 0 5px !important; }
+            .logo-container { margin-top: 20px; margin-bottom: 15px; }
+            .logo-container img { width: 100px; height: 100px; }
+            .login-header h1 { font-size: 1.6em; }
+        }
+        @media (max-width: 575px) {
+            .image-section { min-height: 180px; }
+            .image-content h2 { font-size: 1.8em; }
+            .image-content p { font-size: 1em; }
+            .login-section { padding-top: 0 !important; }
+            .login-container { padding: 0 2px !important; margin-top: 0 !important; }
+            .logo-container { margin-top: 60px !important; margin-bottom: 20px !important; }
+            .logo-container img { width: 120px; height: 120px; }
+        }
+        @media (max-width: 374px) {
+            .image-content h2 { font-size: 1.6em; }
+            .image-content p { font-size: 0.9em; }
+            .logo-container img { width: 120px; height: 120px; }
+            .login-header h1 { font-size: 1.3em; }
+        }
+        #langSwitcher {
+            border: none;
+            background-color: #f8f9fa; /* Light background */
+            color: #343a40;            /* Dark text/icon */
+            padding: 8px 12px;
+            border-radius: 50%;
+            font-size: 18px;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            }
+
+            #langSwitcher:hover {
+            background-color: #e2e6ea;
+            color: #007bff;
+            transform: rotate(10deg) scale(1.1);
+            }
+
+            #langSwitcher:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.3);
+            }
+
+    </style>
+</head>
+<body>
+    <div class="split-container">
+        <div class="image-section">
+            <div class="image-content">
+                <h2 id="welcomeTitle">Welcome to SafeMeds</h2>
+                <p id="welcomeDesc">Track your home medicines and expiry dates easily and safely.</p>
+            </div>
+        </div>
+        <div class="login-section">
+            <div class="login-container">
+                <div class="d-flex justify-content-end mb-2">
+                    <button class="btn btn-light" id="langSwitcher" onclick="toggleLanguage()" title="Switch Language"><i class="fas fa-globe"></i></button>
+                </div>
+                
+                <div class="login-header">
+                    <h1 id="loginHeader">SafeMeds Login/Register</h1>
+                </div>
+                <div id="loginForm">
+                    <form onsubmit="return handleLogin(event)">
+                        <div class="form-group">
+                            <label for="username" id="loginUsernameLabel">Username</label>
+                            <input type="text" id="username" required autocomplete="username" placeholder="" />
+                        </div>
+                        <div class="form-group">
+                            <label for="password" id="loginPasswordLabel">Password</label>
+                            <input type="password" id="password" required autocomplete="current-password" placeholder="" />
+                        </div>
+                        <button type="submit" class="login-btn" id="loginBtn">Login</button>
+                    </form>
+                    <div class="forgot-password">
+                        <span id="noAccountText">Don't have an account?</span> <span class="switch-link" onclick="showRegisterForm()" id="registerSwitch">Register</span>
+                    </div>
+                </div>
+                <div id="registerForm" style="display: none;">
+                    <form onsubmit="return handleRegister(event)">
+                        <div class="form-group">
+                            <label for="regUsername" id="regUsernameLabel">Username</label>
+                            <input type="text" id="regUsername" required autocomplete="username" placeholder="" />
+                        </div>
+                        <div class="form-group">
+                            <label for="regEmail" id="regEmailLabel">Email</label>
+                            <input type="email" id="regEmail" required autocomplete="email" placeholder="" />
+                        </div>
+                        <div class="form-group">
+                            <label for="regPassword" id="regPasswordLabel">Password</label>
+                            <input type="password" id="regPassword" required autocomplete="new-password" placeholder="" />
+                        </div>
+                        <button type="submit" class="login-btn" id="registerBtn">Register</button>
+                    </form>
+                    <div class="forgot-password">
+                        <span id="haveAccountText">Already have an account?</span> <span class="switch-link" onclick="showLoginForm()" id="loginSwitch">Login</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js"></script>
+    <script>
+    // --- Translation logic ---
+    const translations = {
+        en: {
+            'Welcome to SafeMeds': 'Welcome to SafeMeds',
+            'Track your home medicines and expiry dates easily and safely.': 'Track your home medicines and expiry dates easily and safely.',
+            'SafeMeds Login/Register': 'SafeMeds Login/Register',
+            'Username': 'Username',
+            'Password': 'Password',
+            'Email': 'Email',
+            'Login': 'Login',
+            'Register': 'Register',
+            "Don't have an account?": "Don't have an account?",
+            'Already have an account?': 'Already have an account?',
+            'Login Successful': 'Login Successful',
+            'Login Failed': 'Login Failed',
+            'Invalid username or password': 'Invalid username or password',
+            'Registration Successful': 'Registration Successful',
+            'You have successfully registered! Please login.': 'You have successfully registered! Please login.',
+            'Registration Failed': 'Registration Failed',
+            'An error occurred during login': 'An error occurred during login',
+            'An error occurred during registration': 'An error occurred during registration',
+        },
+        ta: {
+            'Welcome to SafeMeds': 'Welcome to SafeMeds',
+            'Track your home medicines and expiry dates easily and safely.': 'உங்கள் வீட்டில் உள்ள மருந்துகள் மற்றும் அவற்றின் காலாவதி தேதிகளை எளிதாகவும் பாதுகாப்பாகவும் கண்காணியுங்கள்.',
+            'SafeMeds Login/Register': 'SafeMeds உள்நுழை / பதிவு செய்யவும்',
+            'Username': 'பயனர் பெயர்',
+            'Password': 'கடவுச்சொல்',
+            'Email': 'மின்னஞ்சல்',
+            'Login': 'உள்நுழை',
+            'Register': 'பதிவு',
+            "Don't have an account?": 'உங்களிடம் கணக்கு இல்லையா?',
+            'Already have an account?': 'ஏற்கனவே கணக்கு உள்ளதா?',
+            'Login Successful': 'உள்நுழைவு வெற்றிகரமாக முடிந்தது',
+            'Login Failed': 'உள்நுழைவு தோல்வி',
+            'Invalid username or password': 'தவறான பயனர் பெயர் அல்லது கடவுச்சொல்',
+            'Registration Successful': 'பதிவு வெற்றிகரமாக முடிந்தது',
+            'You have successfully registered! Please login.': 'நீங்கள் வெற்றிகரமாக பதிவு செய்துள்ளீர்கள்! தயவுசெய்து உள்நுழையவும்.',
+            'Registration Failed': 'பதிவு தோல்வி',
+            'An error occurred during login': 'உள்நுழைவில் பிழை ஏற்பட்டது',
+            'An error occurred during registration': 'பதிவில் பிழை ஏற்பட்டது',
+        }
+    };
+    let currentLang = 'en';
+    const savedLang = localStorage.getItem('lang');
+    if (savedLang) currentLang = savedLang;
+    function t(key) {
+        return translations[currentLang][key] || key;
+    }
+    function updateTexts() {
+        document.getElementById('welcomeTitle').textContent = t('Welcome to SafeMeds');
+        document.getElementById('welcomeDesc').textContent = t('Track your home medicines and expiry dates easily and safely.');
+        document.getElementById('loginHeader').textContent = t('SafeMeds Login/Register');
+        document.getElementById('loginUsernameLabel').textContent = t('Username');
+        document.getElementById('loginPasswordLabel').textContent = t('Password');
+        document.getElementById('loginBtn').textContent = t('Login');
+        document.getElementById('registerSwitch').textContent = t('Register');
+        document.getElementById('noAccountText').textContent = t("Don't have an account?");
+        document.getElementById('regUsernameLabel').textContent = t('Username');
+        document.getElementById('regEmailLabel').textContent = t('Email');
+        document.getElementById('regPasswordLabel').textContent = t('Password');
+        document.getElementById('registerBtn').textContent = t('Register');
+        document.getElementById('loginSwitch').textContent = t('Login');
+        document.getElementById('haveAccountText').textContent = t('Already have an account?');
+        document.getElementById('username').placeholder = t('Username');
+        document.getElementById('password').placeholder = t('Password');
+        document.getElementById('regUsername').placeholder = t('Username');
+        document.getElementById('regEmail').placeholder = t('Email');
+        document.getElementById('regPassword').placeholder = t('Password');
+    }
+    function toggleLanguage() {
+        currentLang = currentLang === 'en' ? 'ta' : 'en';
+        localStorage.setItem('lang', currentLang);
+        updateTexts();
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+        updateTexts();
+    });
+    // --- Existing login/register logic, update SweetAlerts to use t() ---
+    async function handleLogin(event) {
+        event.preventDefault();
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        try {
+            const response = await fetch('http://localhost:8080/api/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
+            });
+            if (response.ok) {
+                const user = await response.json();
+                localStorage.setItem('user', JSON.stringify(user));
+                Swal.fire({
+                    icon: 'success',
+                    title: t('Login Successful'),
+                    showConfirmButton: false,
+                    timer: 1500,
+                    background: '#f8f9fa',
+                    color: '#00b0ea',
+                    didClose: () => { window.location.href = '/dashboard.html'; }
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: t('Login Failed'),
+                    text: t('Invalid username or password'),
+                    background: '#f8f9fa',
+                    color: '#00b0ea',
+                });
+            }
+        } catch (error) {
+            Swal.fire({
+                icon: 'error',
+                title: t('Login Failed'),
+                text: t('An error occurred during login'),
+                background: '#f8f9fa',
+                color: '#00b0ea',
+            });
+        }
+    }
+    async function handleRegister(event) {
+        event.preventDefault();
+        const username = document.getElementById('regUsername').value;
+        const email = document.getElementById('regEmail').value;
+        const password = document.getElementById('regPassword').value;
+        try {
+            const response = await fetch('http://localhost:8080/api/auth/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, email, password })
+            });
+            if (response.ok) {
+                Swal.fire({
+                    icon: 'success',
+                    title: t('Registration Successful'),
+                    text: t('You have successfully registered! Please login.'),
+                    showConfirmButton: false,
+                    timer: 1800,
+                    background: '#f8f9fa',
+                    color: '#00b0ea',
+                    didClose: () => { showLoginForm(); }
+                });
+            } else {
+                const error = await response.text();
+                Swal.fire({
+                    icon: 'error',
+                    title: t('Registration Failed'),
+                    text: error,
+                    background: '#f8f9fa',
+                    color: '#00b0ea',
+                });
+            }
+        } catch (error) {
+            Swal.fire({
+                icon: 'error',
+                title: t('Registration Failed'),
+                text: t('An error occurred during registration'),
+                background: '#f8f9fa',
+                color: '#00b0ea',
+            });
+        }
+    }
+    </script>
+</body>
+</html> 
